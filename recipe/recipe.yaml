@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: opentelemetry-exporter-otlp-proto-http
-  version: "1.45.1"
+  version: 1.45.2
   version_minor: ${{ (version | split('.'))[:2] | join('.') }}
 
 package:
@@ -11,10 +11,10 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/opentelemetry_exporter_otlp_proto_http-${{ version }}.tar.gz
-  sha256: 45c218405ce3fd879596924b1874bf9a8f6880206d61065c5a912c8e5c297fb7
+  sha256: 5984a3fb46bc4628e4e2b85d4a6e72637e03962aae6cf372791137768a4ad939
 
 build:
-  number: 1
+  number: 0
   noarch: python
   script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
@@ -26,16 +26,17 @@ requirements:
   run:
     - typing_extensions >=4.5.0
     - python >=${{ python_min }}
-    - deprecated >=1.2.6
     - googleapis-common-protos >=1.52,<2.dev0
     - opentelemetry-api >=1.15,<2.dev0
     - opentelemetry-proto ${{ version }}.*
     - opentelemetry-sdk ${{ version_minor }}.*
-    - opentelemetry-exporter-http-transport 0.66b1.*
-    - opentelemetry-exporter-otlp-common 0.66b1.*
+    - opentelemetry-exporter-http-transport ==0.66b2
+    - opentelemetry-exporter-otlp-common ==0.66b2
     - opentelemetry-exporter-otlp-proto-common ${{ version }}.*
     - requests >=2.7,<3.dev0
-
+    - opentelemetry-proto ==1.45.2
+    - opentelemetry-exporter-otlp-proto-common ==1.45.2
+    - opentelemetry-sdk >=1.45.2,<1.46.dev0
 tests:
   - python:
       imports:
@@ -43,9 +44,9 @@ tests:
         - opentelemetry.exporter
         - opentelemetry.exporter.otlp.proto.http
       pip_check: true
-      python_version: 
-       - ${{ python_min }}.*
-       - '*'
+      python_version:
+        - ${{ python_min }}.*
+        - '*'
 
 about:
   summary: OpenTelemetry Collector Protobuf over HTTP Exporter
